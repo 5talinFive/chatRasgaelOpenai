@@ -1,0 +1,21 @@
+# Entornos virtuales
+venv/
+__pycache__/
+
+# Archivos de configuración de entorno
+.env
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/
+
+# Archivos de log
+*.log
+
+# Archivos de base de datos
+*.sqlite3
+
+# Archivos de caché
+*.pyc
+*.pyo
+*.pyd

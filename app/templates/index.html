@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con Rasgael</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-window" id="chat-window">
+            <div class="messages" id="messages"></div>
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message here..." />
+        <button id="send-button">Send</button>
+    </div>
+
+    <script>
+        const sendButton = document.getElementById('send-button');
+        const userInput = document.getElementById('user-input');
+        const messages = document.getElementById('messages');
+
+        sendButton.addEventListener('click', async () => {
+            const userMessage = userInput.value;
+            if (userMessage.trim() === '') return;
+
+            // Display user's message
+            const userMessageElement = document.createElement('div');
+            userMessageElement.className = 'message user-message';
+            userMessageElement.textContent = userMessage;
+            messages.appendChild(userMessageElement);
+
+            // Send message to server
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userMessage })
+            });
+
+            const data = await response.json();
+
+            // Display response message
+            const responseMessageElement = document.createElement('div');
+            responseMessageElement.className = 'message response-message';
+            responseMessageElement.textContent = data.message;
+            messages.appendChild(responseMessageElement);
+
+            // Clear input
+            userInput.value = '';
+        });
+    </script>
+</body>
+</html>
